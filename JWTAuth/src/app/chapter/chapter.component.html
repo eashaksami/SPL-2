@@ -1,0 +1,139 @@
+<p>chapter works!</p>
+
+<!-- <div class="containet">
+    <div class="row">
+        <div class="col-xs-12" *ngFor="let chapter of chapters">
+            <input type="checkbox" (change)="selectedChapter(chapter.chapterId)"/>
+            {{ chapter.name }}
+            <br><br>
+        </div>
+    </div>
+</div>
+
+<h4>Select Exam Type</h4>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="practice" name="examType" class="custom-control-input"
+    (click)="ExamType('practiceExam')">
+    <label class="custom-control-label" for="practice"><h5>Practice Exam</h5></label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="test" name="examType" class="custom-control-input"
+    (click)="ExamType('testExam')">
+    <label class="custom-control-label" for="test"><h5>Test Exam</h5></label>
+</div>
+<br>
+<h4>Do you want to view your previous seen questions?</h4>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="seen" name="seenOrUnseen" class="custom-control-input"
+    (click)="onClickSeenOrUnseen(1)">
+    <label class="custom-control-label" for="seen"><h5>Yes</h5></label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="unseen" name="seenOrUnseen" class="custom-control-input"
+    (click)="onClickSeenOrUnseen(0)">
+    <label class="custom-control-label" for="unseen"><h5>No</h5></label>
+</div>
+<br>
+<h4>Do you want to view your previous correct questions?</h4>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="correctYes" name="IsCorrect" class="custom-control-input"
+    (click)="onClickIsCorrect('yes')">
+    <label class="custom-control-label" for="correctYes"><h5>Yes</h5></label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="correctNo" name="IsCorrect" class="custom-control-input"
+    (click)="onClickIsCorrect('no')">
+    <label class="custom-control-label" for="correctNo"><h5>No</h5></label>
+</div>
+<br>
+<h4>Do you want to view your previous wrong questions?</h4>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="wrongYes" name="IsWrong" class="custom-control-input"
+    (click)="onClickIsWrong('yes')">
+    <label class="custom-control-label" for="wrongYes"><h5>Yes</h5></label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="wrongNo" name="IsWrong" class="custom-control-input"
+    (click)="onClickIsWrong('no')">
+    <label class="custom-control-label" for="wrongNo"><h5>No</h5></label>
+</div>
+<br>
+
+<label for="exampleFormControlSelect1">How many questions do you want to practice?</label>
+<select class="form-control" id="exampleFormControlSelect1" (change)="noOfQuestion($event.target.value)">
+    <option *ngFor="let value of values" [value]="value">{{ value }} </option>
+</select>
+
+<button class="btn btn-primary ml-5"(click)="onStartExam()">Start Exam</button>
+
+<app-question *ngIf="examStarted==true && courseService.examType === 'testExam'"></app-question>
+<app-practice-exam *ngIf="examStarted==true && courseService.examType === 'practiceExam'"></app-practice-exam> -->
+
+<section>
+<div class="container-fluid" style=" padding: 0;">
+    <div class="row Container">
+        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-7 left-section" style="height: 96vh; overflow: auto;">
+          <h3 class="text-center mt-3">Select chapter(s)</h3>
+            <div class="inputGroup" *ngFor="let chapter of chapters; let i = index">
+            <input [id]="i" name="option1" type="checkbox" (change)="selectedChapter($event.target.checked,chapter.chapterId)"/>
+            <label [for]="i">{{ chapter.name }}</label>
+            </div>
+        </div>
+
+        <div class="mt-3 col-xl-7 col-lg-6 col-md-6 col-sm-12" style="float: right; height: 100%; width: auto">
+          <h2 class="text-center mt-3">Customize your exam</h2>
+          
+          <form class="m-4">
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Select exam type* (required)</label>
+              <select class="form-control" id="exampleFormControlSelect1" (change)="ExamType($event.target.value)">
+                <option selected="selected" disabled>exam type</option>
+                <option *ngFor="let value of examType" [value]="value">{{ value }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">do you want to view your previously seen questions?</label>
+              <select class="form-control" id="exampleFormControlSelect1" (change)="onClickSeenOrUnseen($event.target.value)">
+                <option selected="selected" disabled>-- options --</option>
+                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Do you want to view your previously corret questions?</label>
+              <select class="form-control" id="exampleFormControlSelect1"
+              [disabled] = "isDisabled" (change)="onClickIsCorrect($event.target.value)">
+                <option selected="selected" disabled>-- options --</option>
+                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Do you want to view your previously wrong questions?</label>
+              <select class="form-control" id="exampleFormControlSelect1"
+              [disabled] = "isDisabled" (change)="onClickIsWrong($event.target.value)">
+                <option selected="selected" disabled>-- options --</option>
+                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+              </select>
+            </div>
+
+            <label for="exampleFormControlSelect1">How many questions do you want to practice?</label>
+            <select class="form-control" id="exampleFormControlSelect1" (change)="noOfQuestion($event.target.value)">
+              <option selected="selected" disabled>-- options --</option>  
+              <option *ngFor="let value of values" [value]="value">{{ value }} </option>
+            </select>
+
+          </form>
+          <div class="btn-wrap text-right mr-4 mt-4">
+            <button [disabled] = "!isValid" (click)="onStartExam()" class="btn-buy">Start exam</button>
+          </div>
+          
+        </div>
+    </div>
+</div>
+</section>
+
+<app-question *ngIf="examStarted==true && courseService.examType === 'testExam'"></app-question>
+<app-practice-exam *ngIf="examStarted==true && courseService.examType === 'practiceExam'"></app-practice-exam>
