@@ -1,0 +1,14 @@
+<p>demo-exam works!</p>
+
+<div class="containet" *ngIf="!questionGet">
+    <div class="row">
+        <div class="col-xs-12" *ngFor="let course of courses">
+            <a [routerLink]="['/demoExam/question/',course.courseCode]">
+                <button class="ml-2 btn btn-primary" (click)="TakeDemo(course.courseCode)">
+                    Take a Demo
+                </button>
+            </a>    
+                {{ course.name }}<br> <br>
+        </div>
+    </div>
+</div>

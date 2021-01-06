@@ -1,0 +1,85 @@
+@media only screen and (min-width: 576px){
+    body{
+        background-color: cornflowerblue;
+    }
+}
+
+@media only screen and (min-width: 760px){
+    body{
+        background-color: cornflowerblue;
+    }
+}
+
+@media only screen and (min-width: 992px){
+    body{
+        background-color: cornflowerblue;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    body{
+        background-color: cornflowerblue;
+    }
+}
+.selected{
+    background-color: aqua;
+    color: blue;
+}
+
+  input[type="radio"] {
+    /* width: 30px;
+    height: 30px;
+    outline: 0;
+    border-radius: 15px;
+    border: 2px solid #1FBED6;
+    background-color: white;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: 0;
+    background: lightgray;
+    height: 40px;
+    width: 290px;
+    border: 1px solid white;
+    border-radius: 10px;
+    display: block;
+  }
+  
+  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+    outline-color: transparent; /*to remove the square border on focus*/
+  }
+  
+  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+    background-color: #1FBED6;
+    transition: all 0.7s;
+  }
+  
+  input[type="radio"]:checked ~ span:first-of-type {
+    color: white;
+  }
+  
+  label span:first-of-type {
+    position: relative;
+    left: auto;
+    font-size: 15px;
+    color: black;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+  
+  label span {
+     position: relative;
+    /*top: -10px; */
+    vertical-align: middle;
+    color: black;
+    /* position: relative; */
+    top: -33px;
+    left: auto;
+  }
+
+  .sami{
+    margin-bottom: 5px;
+  }

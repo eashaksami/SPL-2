@@ -1,0 +1,46 @@
+<p>demo-question works!</p>
+
+<div class="containet">
+    <div class="row">
+        <div class="col-xl-12 ml-5">
+            <li *ngFor="let question of questions; let i= index" style="list-style: none;">
+                <p class="ml-5">{{ i+1 }}. {{ question.question }}</p>
+                
+                <br/>
+                <form action="block">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="ml-5 ">
+                                    <input type="radio" name="option" (click)="selected(question.option1,i)">
+                                    <span> A. {{ question.option1 }}</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="ml-5">
+                                    <input type="radio" name="option" (click)="selected(question.option2,i)">
+                                    <span> B.{{ question.option2 }}</span>
+                                </label>
+                            </div> 
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="ml-5">
+                                    <input type="radio" name="option" (click)="selected(question.option3,i)">
+                                    <span> C.{{ question.option3 }}</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="ml-5">
+                                    <input type="radio" name="option" (click)="selected(question.option4,i)">
+                                    <span> D.{{ question.option4 }}</span>
+                                </label>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </form>
+                <br>
+            </li>
+            <button class="btn btn-outline-primary ml-5" (click)="submit()">Submit</button>
+        </div>          
+    </div>
+</div>
