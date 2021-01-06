@@ -1,0 +1,53 @@
+<p>my-subscriptions works!</p>
+
+<!-- Previous -->
+<!-- <div class="containet">
+    <div class="row">
+        <div class="col-xs-12" *ngFor="let mySubscription of mySubscriptions">
+            <a [routerLink]="['/test/',mySubscription.courseCode]" (click)="Enroll()">
+                <button class="ml-2 btn btn-primary" (click)="Enroll()">
+                    Enroll
+                </button>
+            </a>    
+                {{ mySubscription.name }} : {{ mySubscription.length.slice(0,10) }}<br> <br>
+        </div>
+    </div>
+</div> -->
+<!-- end of previous -->
+
+
+
+<section id="pricing" class="pricing section-bg">
+    <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+            <h2>Pricing</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row ml-auto mr-auto">
+
+            <div class="col-xl-4 col-lg-5 col-md-7 col-sm-12 mt-4 mt-md-0"
+                *ngFor="let mySubscription of mySubscriptions">
+                <div class="box mb-5" data-aos="zoom-in">
+                    <div class="header pb-4" style="background-color: #CCCCCC;">
+                        <h2 class="mb-1 text-left pl-3 pt-2">{{ mySubscription.name }}</h2>
+                        <h5 class="text-left pl-3 pt-1">Expire on: {{ mySubscription.length.slice(0,10) }}</h5> 
+                    </div>
+                    <div class="body">
+                        <div class="image">
+                            <img class="physics-img" src="assets/Images/physics1st.png" alt="">
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                    <a [routerLink]="['/test/',mySubscription.courseCode]">
+                        <button class="btn-buy" (click)="Enroll()">
+                            Enroll
+                        </button>
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>

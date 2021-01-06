@@ -1,0 +1,44 @@
+<p>answer works!</p>
+
+<div class="containet">
+    <div class="row">
+        <div class="col-xl-12 ml-5">
+            <li *ngFor="let question of questions; let i= index" style="list-style: none;">
+                <p class="ml-5">{{ i+1 }}. {{ question.question }}</p>
+                
+                <br/>
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                    <button class="btn btn-outline-primary btn-block mb-2"
+                    [ngStyle]="{backgroundColor:
+                        (question.option1 === question.correctAnswer) ? '#5cb85c':
+                        ((selected[i]===true && isCorrect[i]===false && selectedAnswers[i]===question.option1))
+                        ? '#d9534f' : '#fff'}">
+                        {{ question.option1 }}
+                    </button>
+                    <button class="btn btn-outline-primary btn-block mb-2"
+                    [ngStyle]="{backgroundColor:
+                        (question.option2 === question.correctAnswer) ? '#5cb85c':
+                        ((selected[i]===true && isCorrect[i]===false && selectedAnswers[i]===question.option2))
+                        ? '#d9534f' : '#fff'}">
+                        {{ question.option2 }} 
+                    </button>
+                    <button class="btn btn-outline-primary btn-block mb-2"
+                    [ngStyle]="{backgroundColor:
+                        (question.option3 === question.correctAnswer) ? '#5cb85c':
+                        ((selected[i]===true && isCorrect[i]===false && selectedAnswers[i]===question.option3))
+                        ? '#d9534f' : '#fff'}">
+                        {{ question.option3 }}
+                    </button>
+                    <button class="btn btn-outline-primary btn-block mb-2"
+                    [ngStyle]="{backgroundColor:
+                        (question.option4 === question.correctAnswer) ? '#5cb85c':
+                        ((selected[i]===true && isCorrect[i]===false && selectedAnswers[i]===question.option4))
+                        ? '#d9534f' : '#fff'}">
+                        {{ question.option4 }}
+                    </button>
+                </div>
+                <br>
+            </li>
+        </div>          
+    </div>
+</div>

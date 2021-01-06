@@ -1,0 +1,35 @@
+<p>image-upload works!</p>
+<!-- 
+<div class="containet">
+    <div class="row">
+        <div class="col-xs-12">
+            <img [src]="imageUrl" style="width: 250px; height: 200px;">
+            <input type="file" accept="image/*"
+            (change)="handleFileInput($event.target.files)">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</div> -->
+
+<div class="containet">
+    <div class="row">
+        <div class="col-xs-12">
+            <form #imageForm=ngForm (ngSubmit)="OnSubmit(Image)">
+                <img [src]="imageUrl"  style="width:250px;height:200px">
+                <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12" *ngFor="let image of images">
+            <img [src]="courseService.baseUrl+'Images/'+image.imageUrl" alt=""
+            style="height: 200px; width: 250px;">
+        </div>
+    </div>
+</div>
+
