@@ -10,13 +10,16 @@ namespace JWTApi.Models
         public int TCorrectOrWrong { get; set; }
         // [Key]
         // [Column(Order = 1)]
-        public int StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public Student Student { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         // [Key]
         // [Column(Order = 2)]
         public int QuestionId { get; set; }
         [ForeignKey("QuestionId")]
         public Question Question { get; set; }
+        public int CourseCode { get; set; }
+        [ForeignKey("CourseCode")]
+        public Course Course { get; set; }
     }
 }
