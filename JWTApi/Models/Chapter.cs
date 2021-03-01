@@ -10,6 +10,10 @@ namespace JWTApi.Models
         public int? CourseCode { get; set; }
         [ForeignKey("CourseCode")]
         public Course Course { get; set; }
+        public int? ImageId { get; set; }
+        [ForeignKey("ImageId")]
+        public Image Image { get; set; }
+
         public ICollection<Question> Questions { get; set; }
     }
 }
