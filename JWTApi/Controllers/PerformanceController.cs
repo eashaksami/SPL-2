@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using JWTApi.Data;
 using JWTApi.Dtos;
+using JWTApi.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JWTApi.Controllers
@@ -23,6 +25,7 @@ namespace JWTApi.Controllers
             _performanceService = performanceService;
         }
 
+        [Authorize(Roles = Role.Student)]
         [HttpGet]
         public async Task<IActionResult> getProgressData([FromQuery]string studentId, [FromQuery] string courseCode)
         {
@@ -33,6 +36,7 @@ namespace JWTApi.Controllers
             return Ok(newData);
         }
 
+        [Authorize(Roles = Role.Student)]
         [HttpGet("{courseCompletion}")]
         public async Task<IActionResult> getCourseCompletionData([FromQuery]string studentId, [FromQuery] string courseCode)
         {
