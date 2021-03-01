@@ -14,5 +14,6 @@ namespace JWTApi.Dtos
         public string Email { get; set; }
         [Required]
         public string Phone { get; set; }
+        public string Role { get; set; }
     }
 }
