@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using JWTApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using JWTApi.Helpers;
 
 namespace JWTApi.Controllers
 {
@@ -47,6 +50,16 @@ namespace JWTApi.Controllers
             return Ok(course);
         }
 
+        [HttpGet("{allcourses}")]
+        public async Task<IActionResult> GetAllCourses()
+        {
+            var courses = await _context.CoursesModel.
+            FromSqlRaw
+            ("SELECT Courses.CourseCode, Courses.Name, Images.ImageUrl FROM Images, Courses Where Images.ImageId == Courses.ImageId").ToListAsync();
+            var b = _mapper.Map<IEnumerable<CourseDto>>(courses);
+            return Ok(courses);
+        }
+
         [HttpGet("{demo}/{questions}/{exam}/{sami}")]
         public async Task<IActionResult> GetCoursesDemo()
         {
@@ -57,6 +70,7 @@ namespace JWTApi.Controllers
             return Ok(b);
         }
 
+        [Authorize(Roles = Role.Student)]
         [HttpPost("{exam}/{questions}")]
         public async Task<IActionResult> GetQuestions([FromBody] QuestionDto questionDto)
         {
@@ -64,28 +78,16 @@ namespace JWTApi.Controllers
             // var StudentId = Convert.ToInt16(studentId);
             // var correctOrWrong = Convert.ToInt16(CorrectOrWrong);
             // var seenOrUnseen = Convert.ToInt16(SeenOrUnseen);
-            if(questionDto.examType == "practiceExam"){
-                var question = await _repo.GetQuestion(questionDto.studentId,questionDto.examType,questionDto.CorrectOrWrong,
-                                   questionDto.SeenOrUnseen, questionDto.TotalQuestion, questionDto.chapterIds);      
-                var questions = _mapper.Map<IEnumerable<GetQuestionDto>>(question);
+            var question = await _repo.GetQuestion(questionDto.studentId,questionDto.examType,questionDto.CorrectOrWrong,
+                                questionDto.SeenOrUnseen, questionDto.TotalQuestion, questionDto.chapterIds);
+                  
+            var questions = _mapper.Map<IEnumerable<GetQuestionDto>>(question);
 
-                var rnd = new Random();
-                var result = questions.OrderBy(item => rnd.Next());
-                return Ok(result);
-                // return Ok(result.OrderBy(x => x.QuestionId));
-            }
-            else{
-                var question = await _repo.GetTestQuestion(questionDto.studentId,questionDto.examType,questionDto.CorrectOrWrong,
-                                   questionDto.SeenOrUnseen, questionDto.TotalQuestion, questionDto.chapterIds);
-                var questions = _mapper.Map<IEnumerable<TestQuestionDto>>(question);
-
-                var rnd = new Random();
-                var result = questions.OrderBy(item => rnd.Next());
-                // var result = questions.OrderBy(item => rnd.Next()).Take(NoOfQuestions);
-                // result.Take(HowManyQuestions);
-                // var result1 = result.Take(3);
-                return Ok(result.OrderBy(x => x.QuestionId));
-            }
+            var rnd = new Random();
+            var result = questions.OrderBy(item => rnd.Next());
+            return Ok(result.Take(questionDto.TotalQuestion));
+            // return Ok(result.OrderBy(x => x.QuestionId));
+            
         }
 
 
@@ -95,22 +97,8 @@ namespace JWTApi.Controllers
             var question = await _context.Questions.Where(x => getAnswerDto.questionId.Contains(x.QuestionId))
             .ToListAsync();
 
-            var answers = _mapper.Map<IEnumerable<AnswerDto>>(question);
-
-            // var rnd = new Random();
-            // var a = ((from p in _context.Questions
-            //         join q in _context.QuestionStatuses on p.QuestionId equals q.QuestionId
-            //         where getAnswerDto.questionId.Contains(p.QuestionId) && q.PSeenOrUnseen == 1
-            //         select new{p.QuestionId})
-            //         .OrderBy(item => rnd.Next()).Take(5))
-            //         .Union(((from p in _context.Questions
-            //         join q in _context.QuestionStatuses on p.QuestionId equals q.QuestionId
-            //         where getAnswerDto.questionId.Contains(p.QuestionId) && q.PSeenOrUnseen == 0
-            //         select new{p.QuestionId})
-            //         .OrderBy(item => rnd.Next()).Take(5)));
-
-            // var b = 
-            // await _context.Questions.Where(x => getAnswerDto.questionId.Contains(x.QuestionId)).ToListAsync();
+            var z = question.OrderBy(x => Array.IndexOf(getAnswerDto.questionId, x.QuestionId));
+            var answers = _mapper.Map<IEnumerable<AnswerDto>>(z);
 
             return Ok(answers);
         }
@@ -133,28 +121,70 @@ namespace JWTApi.Controllers
         {
             int studentId = databaseUpdate.studentId;
             // int studentId = 1;
+            int correct = 0;
+            int wrong = 0;
+            foreach(var i in databaseUpdate.isCorrect)
+            {
+                if(i == 0)
+                {
+                    wrong++;
+                }
+                else
+                {
+                    correct++;
+                }
+            }
+
+            var course = _context.QuestionStatuses.Where(x => x.QuestionId == databaseUpdate.questionId[0]).FirstOrDefault();
+
             if(databaseUpdate.examType=="practiceExam")
             {
                 for(int i=0;i<databaseUpdate.questionId.Length;i++)
                 {
                     // var a = _context.QuestionStatuses
                     // .FromSqlRaw("UPDATE QuestionStatuses SET PSeenOrUnseen=1, PCorrectOrWrong = {0} WHERE StudentId={1} AND QuestionId={2}",databaseUpdate.isCorrect[i],studentId,databaseUpdate.questionId[i]).ToListAsync();
-                    var z = _context.QuestionStatuses.First(a => a.QuestionId == databaseUpdate.questionId[i] && a.StudentId==studentId);
+                    var z = _context.QuestionStatuses.First(a => a.QuestionId == databaseUpdate.questionId[i] && a.UserId==studentId);
                     z.PSeenOrUnseen=1;
                     z.PCorrectOrWrong=databaseUpdate.isCorrect[i];
                     _context.SaveChanges();
                 }
+
+                //update practice exam table
+                var practiceExamData = new PracticeExam
+                {
+                    Quantity = databaseUpdate.questionId.Length,
+                    TotalCorrectAnswer = correct,
+                    TotalWrongAnswer = wrong,
+                    UserId = databaseUpdate.studentId,
+                    CourseCode = course.CourseCode
+                };
+                _context.PracticeExams.AddAsync(practiceExamData);
+                _context.SaveChangesAsync();
+
                 return databaseUpdate;
             }
             else
             {
                 for(int i=0;i<databaseUpdate.questionId.Length;i++)
                 {
-                    var z = _context.QuestionStatuses.First(a => a.QuestionId == databaseUpdate.questionId[i] && a.StudentId==studentId);
+                    var z = _context.QuestionStatuses.First(a => a.QuestionId == databaseUpdate.questionId[i] && a.UserId==studentId);
                     z.TSeenOrUnseen=1;
                     z.TCorrectOrWrong=databaseUpdate.isCorrect[i];
                     _context.SaveChanges();
                 }
+
+                //update test exam table
+                var testExamData = new TestExam
+                {
+                    Quantity = databaseUpdate.questionId.Length,
+                    TotalCorrectAnswer = correct,
+                    TotalWrongAnswer = wrong,
+                    UserId = databaseUpdate.studentId,
+                    CourseCode = course.CourseCode
+                };
+                _context.TestExams.AddAsync(testExamData);
+                _context.SaveChangesAsync();
+
                 return databaseUpdate;
             }           
         }
