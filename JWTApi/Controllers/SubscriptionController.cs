@@ -9,6 +9,8 @@ using JWTApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
+using JWTApi.Helpers;
 
 namespace JWTApi.Controllers
 {
@@ -35,6 +37,7 @@ namespace JWTApi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = Role.Student)]
         [HttpGet("{myCourses}")]
         public async Task<IActionResult> getSubscribedCourses([FromQuery]string studentId)
         {
