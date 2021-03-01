@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using AutoMapper;
 using JWTApi.Data;
 using JWTApi.Dtos;
 using Microsoft.AspNetCore.Authorization;
