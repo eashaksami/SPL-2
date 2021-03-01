@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using JWTApi.Dtos;
 using JWTApi.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.Generic;
 
