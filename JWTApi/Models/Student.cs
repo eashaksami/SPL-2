@@ -1,3 +1,5 @@
+// no need to use student class anymore
+
 using System.Collections.Generic;
 
 namespace JWTApi.Models
