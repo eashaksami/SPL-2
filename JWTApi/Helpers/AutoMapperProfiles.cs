@@ -16,6 +16,7 @@ namespace JWTApi.Helpers
             CreateMap<Image, ImagesDto>();
             CreateMap<Question, AnswerDto>();
             CreateMap<Question, UploadQuestionDto>();
+            CreateMap<TestExam, ProgressInfoDto>();
         }
     }
 }
