@@ -1,3 +1,5 @@
+// no need to use admin class anymore
+
 namespace JWTApi.Models
 {
     public class Admin
