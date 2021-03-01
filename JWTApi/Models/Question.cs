@@ -21,4 +21,4 @@ namespace JWTApi.Models
         public Chapter Chapter { get; set; }
         public ICollection<QuestionStatus> QuestionStatuses { get; set; }
     }
-}
+} 
