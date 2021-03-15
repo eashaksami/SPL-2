@@ -13,7 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 export class ProgressGraphComponent implements OnInit {
   progressData: Progress[] = [];
   graphData: number[] = [];
+  public lineChartLabels = [];
   length: number = 0;
+  isLoading: boolean = false;
 
   constructor(private performanceService: PerformanceService,
               private authenticationService: AuthenticationService,
@@ -24,9 +26,11 @@ export class ProgressGraphComponent implements OnInit {
   }
 
   getProgress(){
-    this.performanceService.getProgressData(+this.authenticationService.getUsername().studentId,
+    this.isLoading = true;
+    this.performanceService.getProgressData(+this.authenticationService.getUsername().userId,
                                             +this.route.snapshot.params['courseCode'])
     .subscribe((data: Progress[]) => {
+      this.isLoading = false;
       console.log(data);
       this.progressData = data;
       console.log(this.progressData);
@@ -36,6 +40,7 @@ export class ProgressGraphComponent implements OnInit {
       // this.graphData = new Array(length);
       for(var i = 0; i < length; i++){
       this.graphData[i] = ((this.progressData[i].totalCorrectAnswer)*100)/(this.progressData[i].quantity);
+      this.lineChartLabels[i] = "Exam " + (i+1).toString();
     }
     console.log(this.graphData);
     });
@@ -52,7 +57,7 @@ export class ProgressGraphComponent implements OnInit {
   public lineChartData: ChartDataSets[] = [
     { data: this.graphData, label: 'Series A' },
   ];
-  public lineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  // public lineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions = {
     responsive: true,
   };
