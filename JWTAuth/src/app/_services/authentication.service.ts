@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { User } from '@app/_models';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+    // isLoggedIn: boolean = true;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -26,6 +27,7 @@ export class AuthenticationService {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user);
+                // this.isLoggedIn = true;
                 return user;
             }));
     }
@@ -34,14 +36,15 @@ export class AuthenticationService {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
 
-    register(username: string, password: string, email: string, phone: string) {
+    register(username: string, password: string, email: string, phone: string, role: string) {
         return this.http.post<any>(`${environment.apiUrl}/users/register`,
-         { username, password,email, phone });
+         { username, password,email, phone, role });
     }
 
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        // this.isLoggedIn = false;
         this.currentUserSubject.next(null);
     }
 }
