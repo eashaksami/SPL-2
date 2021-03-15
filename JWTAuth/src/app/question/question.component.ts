@@ -16,7 +16,7 @@ export class QuestionComponent implements OnInit {
   testQuestion: TestQuestion[];
   // selectedAnswer: number[] = new Array(10);
   examStarted : boolean = false;
-  leftTimes : number = 30;
+  leftTimes : number = 0;
   timeUp : boolean = false;
   currentIndex : number = 0;
   isActive: boolean = false;
@@ -30,9 +30,8 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
     //this.visited.fill(false);
-    console.log(this.authenticationService.getUsername().studentId);
+    console.log(this.authenticationService.getUsername().userId);
     this.getQuestions();
-    this.examStarted=true;
   }
 
   selected(option: string, index: number){
@@ -48,6 +47,7 @@ export class QuestionComponent implements OnInit {
     this.timeUp=true;
     this.router.navigate(['/test/questions/answer/details']);
     console.log(this.courseService.selectedAnswer);
+    this.courseService.examStarted = false;
     // console.log(this.courseService.selectedAnswer[7]);
   }
 
@@ -59,25 +59,28 @@ export class QuestionComponent implements OnInit {
   getQuestions(){
     // +this.route.snapshot.params['chapterId']
       this.courseService.getQuestions(this.courseService.chapterIds,
-        +this.authenticationService.getUsername().studentId,
+        +this.authenticationService.getUsername().userId,
         this.courseService.examType, this.courseService.CorrectOrWrong,
         this.courseService.SeenOrUnseen, +this.courseService.howManyQuestions)
         .subscribe((question: TestQuestion[]) => {
-        // this.questions = question;
-        this.courseService.testQuestions = question;
-        this.testQuestion = question;
-        console.log(this.testQuestion);
-        var keys = Object.keys(this.testQuestion);
-        var length = keys.length;
-        this.courseService.selectedAnswer = new Array(length);
-        this.courseService.selectedAnswer.fill('');
-        console.log(length);
-
-        // this.questionIds = new Array(length);
+          this.leftTimes = ((+this.courseService.howManyQuestions)*45);
+          this.examStarted=true;
+          this.courseService.examStarted = true;
+          // this.questions = question;
+          this.courseService.testQuestions = question;
+          this.testQuestion = question;
+          console.log(this.testQuestion);
+          var keys = Object.keys(this.testQuestion);
+          var length = keys.length;
+          this.courseService.selectedAnswer = new Array(length);
+          this.courseService.selectedAnswer.fill('');
+          console.log(length);
   
-        // for(var i = 0;i < length; i++)
-        // this.questionIds[i] = this.question[i].questionId;
-        // console.log(this.questionIds);
+          // this.questionIds = new Array(length);
+    
+          // for(var i = 0;i < length; i++)
+          // this.questionIds[i] = this.question[i].questionId;
+          // console.log(this.questionIds);
       });
     //console.log(this.questions);
   }
@@ -88,6 +91,7 @@ export class QuestionComponent implements OnInit {
         this.timeUp = true;
         this.router.navigate(['/test/questions/answer/details']);
        console.log("Time Up");
+      this.courseService.examStarted = false;
      }
    }
   
