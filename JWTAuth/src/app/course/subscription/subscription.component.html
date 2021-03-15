@@ -1,0 +1,61 @@
+<!-- old version -->
+<!-- <p>{{ courseSelected }}</p>
+
+<a>
+    <button class="ml-2 btn btn-primary" (click)="Subscribed(3, 700)">
+        3 Month
+    </button>
+</a>
+<br><br>
+<a>
+    <button class="ml-2 btn btn-primary" (click)="Subscribed(6, 1300)">
+        6 Month
+    </button>
+</a> -->
+<!-- old version -->
+
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<section id="pricing" class="pricing section-bg" *ngIf="!isLoading">
+    <div class="container">
+        <h1 class="text-center mt-5 font-weight-bold">Choose Your Subscription plan</h1>
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-6 mt-5 mb-5">
+                <div class="card card-div" style="border: 2px solid rgb(201, 201, 201);">
+                    <div class="card-header bg-success text-white text-center pt-2 pb-2">
+                        <h6 style="font-size: 20px;">3 MONTHS SUBSCRIPTION</h6> 
+                    </div>
+                    <div class="card-body text-center">
+                            <!-- <h4 class="card-title" style="color: rgb(134, 132, 132);">Card Title</h4> -->
+                            <h4 class="mb-2"><sup>tk</sup>700<span> / 3 months</span></h4>
+                        <h6 class="card-text mb-5">with previous 5 year questions</h6>
+                        <a>
+                            <button class="ml-2 btn btn-success" (click)="Subscribed(3, 700)">
+                                ENROLL NOW
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 col-md-6 mt-5 mb-5">
+                <div class="card card-div" style="border: 2px solid rgb(201, 201, 201);">
+                    <div class="card-header bg-success text-white text-center pt-2 pb-2">
+                        <h6 style="font-size: 20px;">3 MONTHS SUBSCRIPTION</h6> 
+                    </div>
+                    <div class="card-body text-center">
+                        <!-- <h4 class="card-title">Card Title</h4> -->
+                        <h4 class="mb-2"><sup>tk</sup>1300<span> / 6 months</span></h4>
+                        <h6 class="card-text mb-5">with previous 10 year questions</h6>
+                        <a>
+                            <button class="ml-2 btn btn-success" (click)="Subscribed(6, 1300)">
+                                ENROLL NOW
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
