@@ -4,4 +4,5 @@ export class SubscribedCourses{
     courseCode: number;
     length: string;
     name: string;
+    imageUrl: string;
 }
