@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chapter } from '@app/_models/Chapter';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '@app/_services/course.service';
 
 @Component({
@@ -17,18 +17,26 @@ export class ChapterComponent implements OnInit {
   options: string[] = ['Yes', 'no'];
   isDisabled: boolean = true;
   isValid: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private courseService: CourseService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
+
+  courseCode: number = +this.route.snapshot.params['id'];
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.courseService.chapterIds = new Array();
     this.getChapters();
+    console.log(this.courseService.examStarted);
   }
 
   getChapters(){
+    this.isLoading = true;
     this.courseService.grtChapters(+this.route.snapshot.params['id'])
     .subscribe((chapter: Chapter[]) =>{
+      this.isLoading = false;
       this.chapters = chapter;
       console.log(this.chapters);
     });
@@ -117,6 +125,10 @@ export class ChapterComponent implements OnInit {
   noOfQuestion(questions: number){
     this.courseService.howManyQuestions = questions;
     console.log(this.courseService.howManyQuestions);
+  }
+
+  onViewProgressGraph(){
+    
   }
 
 }
