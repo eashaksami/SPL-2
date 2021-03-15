@@ -1,3 +1,4 @@
+import { CourseService } from './../_services/course.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_services/authentication.service';
@@ -14,9 +15,11 @@ import { Component, OnInit } from '@angular/core';
 export class MySubscriptionsComponent implements OnInit {
 
   mySubscriptions: SubscribedCourses[];
+  isLoading: boolean = false;
 
   constructor(private subscriptionsService: SubscriptionsService,
               private authenticationService: AuthenticationService,
+              public courseService: CourseService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -25,8 +28,10 @@ export class MySubscriptionsComponent implements OnInit {
   }
 
   getMySubscriptions(){
-    this.subscriptionsService.getMySubscriptions(+this.authenticationService.getUsername().studentId)
+    this.isLoading = true;
+    this.subscriptionsService.getMySubscriptions(+this.authenticationService.getUsername().userId)
     .subscribe((course: SubscribedCourses[]) => {
+      this.isLoading = false;
       this.mySubscriptions = course;
       console.log(this.mySubscriptions);
     });
