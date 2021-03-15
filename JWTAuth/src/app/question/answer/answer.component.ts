@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 import { AuthenticationService } from '@app/_services';
 import { TestQuestion } from '@app/_models/TestQuestion';
+import { ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-answer',
@@ -27,6 +28,9 @@ export class AnswerComponent implements OnInit {
   selected: any;
   isCorrect: any;
   length: number = 0;
+  totalCorrect: number = 0;
+  totalWrong: number = 0;
+  noAttempt: number = 0;
 
   constructor(private courseService: CourseService,
               private authenticationService: AuthenticationService) { }
@@ -72,38 +76,84 @@ export class AnswerComponent implements OnInit {
   something(){
     for(var i=0;i<length;i++)
     {
-      // if(this.courseService.testQuestions[i].correctAnswer === this.selectedAnswers[i])
-      // {
-      //   this.isCorrect[i] = true;
-      //   this.courseService.correctOrWrong[i] = 1;
-      // }
-      // else
-      // {
-      //   this.isCorrect[i] = false;
-      //   this.courseService.correctOrWrong[i] = 0;
-      // }
-
+      console.log(this.answers[i].correctAnswer +" "+ this.selectedAnswers[i])
       if(this.answers[i].correctAnswer === this.selectedAnswers[i])
       {
         this.isCorrect[i] = true;
+        console.log("isCorrect[i] = true "+this.isCorrect[i]);
         this.courseService.correctOrWrong[i] = 1;
       }
       else
       {
         this.isCorrect[i] = false;
+        console.log("isCorrect[i] = false "+this.isCorrect[i]);
         this.courseService.correctOrWrong[i] = 0;
       }
 
       if(this.selectedAnswers[i]!=='')
       {
         this.selected[i] = true;
+        console.log("selected[i] = true "+this.selected[i]);
       }
       else
+      {
         this.selected[i] = false;
+        console.log("selected[i] = false "+this.selected[i]);
+      }
     }
+
+    for(var i=0;i<length;i++)
+    {
+      if(this.selected[i])
+      {
+        if(this.isCorrect[i])
+        {
+          this.totalCorrect++;
+          // console.log("Total Correct "+this.totalCorrect);
+        }
+        else
+        {
+          this.totalWrong++;
+          // console.log("Total wrong "+this.totalWrong);
+        }
+      }
+      else
+      {
+        this.noAttempt++;
+        // console.log("No Attempt "+this.noAttempt);
+      }
+    }
+    this.UpdateChartData(this.totalCorrect, this.totalWrong, this.noAttempt);
+    console.log(this.isCorrect);
+    console.log(this.selected);
+    console.log(this.totalCorrect);
+    console.log(this.totalWrong);
+    console.log(this.noAttempt);
     // console.log(this.courseService.correctOrWrong);
     this.updateDatabase();
   }
+
+  chartData: number[] = [];
+
+  UpdateChartData(totalCorrect: number, totalWrong: number, noAttempt: number){
+    this.chartData[0] = totalCorrect;
+    this.chartData[1] = totalWrong;
+    this.chartData[2] = noAttempt;
+  }
+  
+  
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  
+  public pieChartLabels = ['Correct', 'Wrong', 'No Attempt'];
+  public pieChartData = [this.chartData];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+  public pieChartColors: Array < any > = [{
+    backgroundColor: ['green', 'red', 'yellow']
+ }];
 
   updateDatabase()
   {
@@ -115,24 +165,9 @@ export class AnswerComponent implements OnInit {
      } 
      console.log(this.courseService.correctOrWrong);
      console.log(this.isCorrects);
-     /*this.dtatbaseUpdate
-        .push({questionId: this.questionIds,isCorrect:this.isCorrects, examType: this.courseService.examType,
-              studentId: +this.authenticationService.getUsername().studentId});      
-     console.log(this.dtatbaseUpdate);
-     var jsonData = JSON.stringify(this.dtatbaseUpdate);
-    //  console.log(jsonData);
-     var data = jsonData.toString(); 
-     data = data.slice(1);
-     data = data.slice(0,data.length-1);
-    //  console.log(data);
-     console.log(this.courseService.examType);*/
-
-      // this.courseService.updateDatabase(this.dtatbaseUpdate).subscribe(response =>{
-      //   console.log(response);
-      // });
 
       this.courseService.updateDatabase(this.questionIds,this.isCorrects,this.courseService.examType,
-        +this.authenticationService.getUsername().studentId).subscribe(response =>{
+        +this.authenticationService.getUsername().userId).subscribe(response =>{
         console.log(response);
       });
   }
