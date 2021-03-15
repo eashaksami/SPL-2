@@ -45,7 +45,7 @@ export class SignUpComponent implements OnInit {
         this.loading = true;
 
         this.authenticationService
-        .register(this.f.username.value, this.f.password.value,this.f.email.value, this.f.phone.value)
+        .register(this.f.username.value, this.f.password.value,this.f.email.value, this.f.phone.value, "Student")
           .subscribe(() =>{
             this.router.navigate(['']);
             console.log('Registration Successful');
