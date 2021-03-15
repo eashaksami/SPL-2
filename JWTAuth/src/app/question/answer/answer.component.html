@@ -1,5 +1,19 @@
 <p>answer works!</p>
 
+<div style="display: block; height:auto; width:40vw;">
+    <canvas baseChart 
+        [data]="pieChartData" 
+        [labels]="pieChartLabels" 
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend"
+        [colors]="pieChartColors">
+    </canvas>
+</div>
+
+<br><br>
+
 <div class="containet">
     <div class="row">
         <div class="col-xl-12 ml-5">
