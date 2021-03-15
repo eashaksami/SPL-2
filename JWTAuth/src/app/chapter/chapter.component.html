@@ -69,70 +69,75 @@
 <app-question *ngIf="examStarted==true && courseService.examType === 'testExam'"></app-question>
 <app-practice-exam *ngIf="examStarted==true && courseService.examType === 'practiceExam'"></app-practice-exam> -->
 
-<section>
-<div class="container-fluid" style=" padding: 0;">
-    <div class="row Container">
-        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-7 left-section" style="height: 96vh; overflow: auto;">
-          <h3 class="text-center mt-3">Select chapter(s)</h3>
-            <div class="inputGroup" *ngFor="let chapter of chapters; let i = index">
-            <input [id]="i" name="option1" type="checkbox" (change)="selectedChapter($event.target.checked,chapter.chapterId)"/>
-            <label [for]="i">{{ chapter.name }}</label>
-            </div>
-        </div>
-
-        <div class="mt-3 col-xl-7 col-lg-6 col-md-6 col-sm-12" style="float: right; height: 100%; width: auto">
-          <h2 class="text-center mt-3">Customize your exam</h2>
-          
-          <form class="m-4">
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Select exam type* (required)</label>
-              <select class="form-control" id="exampleFormControlSelect1" (change)="ExamType($event.target.value)">
-                <option selected="selected" disabled>exam type</option>
-                <option *ngFor="let value of examType" [value]="value">{{ value }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">do you want to view your previously seen questions?</label>
-              <select class="form-control" id="exampleFormControlSelect1" (change)="onClickSeenOrUnseen($event.target.value)">
-                <option selected="selected" disabled>-- options --</option>
-                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Do you want to view your previously corret questions?</label>
-              <select class="form-control" id="exampleFormControlSelect1"
-              [disabled] = "isDisabled" (change)="onClickIsCorrect($event.target.value)">
-                <option selected="selected" disabled>-- options --</option>
-                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Do you want to view your previously wrong questions?</label>
-              <select class="form-control" id="exampleFormControlSelect1"
-              [disabled] = "isDisabled" (change)="onClickIsWrong($event.target.value)">
-                <option selected="selected" disabled>-- options --</option>
-                <option *ngFor="let value of options" [value]="value">{{ value }}</option>
-              </select>
-            </div>
-
-            <label for="exampleFormControlSelect1">How many questions do you want to practice?</label>
-            <select class="form-control" id="exampleFormControlSelect1" (change)="noOfQuestion($event.target.value)">
-              <option selected="selected" disabled>-- options --</option>  
-              <option *ngFor="let value of values" [value]="value">{{ value }} </option>
-            </select>
-
-          </form>
-          <div class="btn-wrap text-right mr-4 mt-4">
-            <button [disabled] = "!isValid" (click)="onStartExam()" class="btn-buy">Start exam</button>
-          </div>
-          
-        </div>
-    </div>
+<div *ngIf="isLoading" style="text-align: center;">
+  <app-loading-spinner></app-loading-spinner>
 </div>
+<section *ngIf="!courseService.examStarted && isLoading == false">
+  <button class="btn btn-primary" [routerLink]="['/progress/',courseCode]">Progress Graph</button>
+  <button class="btn btn-primary" [routerLink]="['/coursecompletion/',courseCode]">Course Completion</button>
+  <div class="container-fluid" style=" padding: 0;">
+      <div class="row Container">
+          <div class="col-xl-4 col-lg-5 col-md-6 col-sm-7 left-section" style="height: 96vh; overflow: auto;">
+            <h3 class="text-center mt-3">Select chapter(s)</h3>
+              <div class="inputGroup" *ngFor="let chapter of chapters; let i = index">
+              <input [id]="i" name="option1" type="checkbox" (change)="selectedChapter($event.target.checked,chapter.chapterId)"/>
+              <label [for]="i">{{ chapter.name }}</label>
+              </div>
+          </div>
+
+          <div class="mt-3 col-xl-7 col-lg-6 col-md-6 col-sm-12" style="float: right; height: 100%; width: auto">
+            <h2 class="text-center mt-3">Customize your exam</h2>
+            
+            <form class="m-4">
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Select exam type* (required)</label>
+                <select class="form-control" id="exampleFormControlSelect1" (change)="ExamType($event.target.value)">
+                  <option selected="selected" disabled>exam type</option>
+                  <option *ngFor="let value of examType" [value]="value">{{ value }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">do you want to view your previously seen questions?</label>
+                <select class="form-control" id="exampleFormControlSelect1" (change)="onClickSeenOrUnseen($event.target.value)">
+                  <option selected="selected" disabled>-- options --</option>
+                  <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Do you want to view your previously corret questions?</label>
+                <select class="form-control" id="exampleFormControlSelect1"
+                [disabled] = "isDisabled" (change)="onClickIsCorrect($event.target.value)">
+                  <option selected="selected" disabled>-- options --</option>
+                  <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Do you want to view your previously wrong questions?</label>
+                <select class="form-control" id="exampleFormControlSelect1"
+                [disabled] = "isDisabled" (change)="onClickIsWrong($event.target.value)">
+                  <option selected="selected" disabled>-- options --</option>
+                  <option *ngFor="let value of options" [value]="value">{{ value }}</option>
+                </select>
+              </div>
+
+              <label for="exampleFormControlSelect1">How many questions do you want to practice?</label>
+              <select class="form-control" id="exampleFormControlSelect1" (change)="noOfQuestion($event.target.value)">
+                <option selected="selected" disabled>-- options --</option>  
+                <option *ngFor="let value of values" [value]="value">{{ value }} </option>
+              </select>
+
+            </form>
+            <div class="btn-wrap text-right mr-4 mt-4">
+              <button [disabled] = "!isValid" (click)="onStartExam()" class="btn-buy">Start exam</button>
+            </div>
+            
+          </div>
+      </div>
+  </div>
 </section>
 
 <app-question *ngIf="examStarted==true && courseService.examType === 'testExam'"></app-question>
