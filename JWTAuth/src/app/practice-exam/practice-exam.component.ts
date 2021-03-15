@@ -16,7 +16,7 @@ export class PracticeExamComponent implements OnInit {
   currentIndex : number = 0;
   isPracticeExam: boolean = true;
   viewAnswer: boolean = false;
-
+  totalQuestion: number = 0;
   questionIds: number[] = [];
   isCorrects: number[] = [];
   selectedAnswers: any;
@@ -29,7 +29,7 @@ export class PracticeExamComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    console.log(this.authenticationService.getUsername().studentId);
+    console.log(this.authenticationService.getUsername().userId);
     this.getQuestions();
 
     this.selectedAnswers = this.fillArray(length);
@@ -52,25 +52,28 @@ export class PracticeExamComponent implements OnInit {
   
   getQuestions(){
       this.courseService.getQuestions(this.courseService.chapterIds,
-      +this.authenticationService.getUsername().studentId,
+      +this.authenticationService.getUsername().userId,
       this.courseService.examType, this.courseService.CorrectOrWrong,
       this.courseService.SeenOrUnseen, +this.courseService.howManyQuestions)
         .subscribe((question: Question[]) => {
-        // this.questions = question;
-        this.courseService.questions = question;
-        this.question = question;
-        console.log(this.question);
-        var keys = Object.keys(this.question);
-        this.length = keys.length;
-        this.courseService.selectedAnswer = new Array(length);
-        this.courseService.selectedAnswer.fill('');
-        console.log(length);
-  
-        // this.questionIds = new Array(length);
-  
-        // for(var i = 0;i < length; i++)
-        // this.questionIds[i] = this.question[i].questionId;
-        // console.log(this.questionIds);
+          this.courseService.examStarted = true;
+          // this.questions = question;
+          this.courseService.questions = question;
+          this.question = question;
+          console.log(this.question);
+          var keys = Object.keys(this.question);
+          this.length = keys.length;
+          console.log("Length: " + this.length);
+          this.totalQuestion = this.length;
+          console.log(this.totalQuestion);
+          this.courseService.selectedAnswer = new Array(length);
+          this.courseService.selectedAnswer.fill('');
+    
+          // this.questionIds = new Array(length);
+    
+          // for(var i = 0;i < length; i++)
+          // this.questionIds[i] = this.question[i].questionId;
+          // console.log(this.questionIds);
       });
   }
 
@@ -89,6 +92,7 @@ export class PracticeExamComponent implements OnInit {
     {
       console.log('database update');
       this.something();
+      this.courseService.examStarted = false;
     }
   }
 
@@ -120,7 +124,7 @@ export class PracticeExamComponent implements OnInit {
      } 
 
       this.courseService.updateDatabase(this.questionIds,this.isCorrects,this.courseService.examType,
-        +this.authenticationService.getUsername().studentId).subscribe(response =>{
+        +this.authenticationService.getUsername().userId).subscribe(response =>{
         console.log(response);
       });
   }
