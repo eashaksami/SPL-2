@@ -1,6 +1,8 @@
-<p>course-completion works!</p>
+<div *ngIf="isLoading" style="text-align: center;">
+  <app-loading-spinner></app-loading-spinner>
+</div>
 
-<div>
+<div *ngIf="!isLoading"  style="height:auto; width:40vw;">
     <div style="display: block">
       <canvas baseChart
             [datasets]="barChartData"
@@ -12,8 +14,8 @@
 </div>
 <br><br><br>
 
-<div style="display: block;">
-  <canvas baseChart 
+<div style="display: block; height:auto; width:40vw;" *ngIf="!isLoading">
+  <canvas baseChart
     [data]="pieChartData" 
     [labels]="pieChartLabels" 
     [chartType]="pieChartType"
