@@ -4,6 +4,7 @@ import { PerformanceService } from '@app/_services/performance.service';
 import { AuthenticationService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { ChartOptions, ChartType } from 'chart.js';
+// import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-course-completion',
@@ -20,6 +21,7 @@ export class CourseCompletionComponent implements OnInit {
   countTotalQsn: number = 0;
   countTotalSeen: number = 0;
   chartData: number[] = [];
+  isLoading: boolean = false;
 
   constructor(private performanceService: PerformanceService,
               private authenticationService: AuthenticationService,
@@ -27,12 +29,24 @@ export class CourseCompletionComponent implements OnInit {
 
   ngOnInit() {
     this.getProgress();
+
+    // const helper = new JwtHelperService();
+ 
+    // const decodedToken = helper.decodeToken(this.authenticationService.getUsername().token);
+    // const expirationDate = helper.getTokenExpirationDate(this.authenticationService.getUsername().token);
+    // const isExpired = helper.isTokenExpired(this.authenticationService.getUsername().token);
+
+    // console.log("Decoded Token: " + decodedToken);
+    // console.log("Expire Date" + expirationDate);
+    // console.log("is Expired" + isExpired);
   }
 
   getProgress(){
-    this.performanceService.getCourseCompletionData(+this.authenticationService.getUsername().studentId,
+    this.isLoading = true;
+    this.performanceService.getCourseCompletionData(+this.authenticationService.getUsername().userId,
                                             +this.route.snapshot.params['courseCode'])
     .subscribe((data: CourseCompletion[]) => {
+      this.isLoading = false;
       console.log(data);
       this.courseCompletionData = data;
       console.log(this.courseCompletionData);
