@@ -1,4 +1,4 @@
-﻿import { CourseService } from '@app/_services/course.service';
+import { CourseService } from '@app/_services/course.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,10 +7,11 @@ import * as jwt_decode from "jwt-decode";
 
 import { AuthenticationService } from '@app/_services';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({ templateUrl: 'login.component.html',
+            styleUrls: ['login.component.css'] })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
-    loading = false;
+    isLoading = false;
     submitted = false;
     returnUrl: string;
     error = '';
@@ -49,21 +50,23 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.loading = true;
+        this.isLoading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
+                    window.location.reload();
                     this.courseService.user=data;
                     // this.router.navigate(['/test']);
                     // this.router.navigate(['/']);
                     console.log(jwt_decode(this.courseService.user.token));
+                    console.log(data);
                     // console.log(this.authenticationService.getUsername().studentId);
                 },
                 error => {
                     this.error = error;
-                    this.loading = false;
+                    this.isLoading = false;
                 });
     }
 
