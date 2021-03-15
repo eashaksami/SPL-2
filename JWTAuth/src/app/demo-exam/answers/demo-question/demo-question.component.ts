@@ -14,6 +14,7 @@ export class DemoQuestionComponent implements OnInit {
   courseCode: number;
   courses: Course[];
   questions: Question[];
+  isLoading: boolean = false;
   
   constructor(private courseService: CourseService,
     private router: Router, private route: ActivatedRoute) { }
@@ -23,7 +24,9 @@ export class DemoQuestionComponent implements OnInit {
   }
 
   TakeDemo(){
+    this.isLoading = true;
     this.courseService.getDemoQuestions(+this.route.snapshot.params['courseCode']).subscribe((question: Question[]) => {
+      this.isLoading = false;
       this.questions = question;
       console.log(this.questions);
       this.courseService.questions = question;
