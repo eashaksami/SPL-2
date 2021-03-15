@@ -14,7 +14,7 @@ export class ImageUploadComponent implements OnInit {
   image: File = null;
   imageUrl: string = "/assets/Images/du.png";
 
-  constructor(private courseService: CourseService,
+  constructor(public courseService: CourseService,
               private subscriptionService: SubscriptionsService) { }
 
   ngOnInit(): void {
