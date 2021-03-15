@@ -28,6 +28,7 @@ export class CourseService{
     CorrectOrWrong: number = 0;
     chapterIds: number[];
     howManyQuestions: number = 25;
+    examStarted: boolean = false;
     
     constructor(private http: HttpClient) {}
 
@@ -35,6 +36,10 @@ export class CourseService{
         const params = new HttpParams()
                         .set('studentId', studentId.toString())
         return this.http.get(this.baseUrl+ 'test', {params}).pipe(map((response => <Course[]>response)));
+    }
+
+    getAllCourses(): Observable<Course[]>{
+        return this.http.get(this.baseUrl+ 'test/allcourses').pipe(map((response => <Course[]>response)));
     }
 
     getCoursesDemo(): Observable<Course[]>{
