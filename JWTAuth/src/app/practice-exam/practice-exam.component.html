@@ -4,6 +4,7 @@
     <div class="row">
         <div class="col-xl-12 ml-5">
             <li *ngFor="let question of question; let i= index" style="list-style: none;">
+                <h2 *ngIf="currentIndex==i">{{ i+1 }} / {{ length }}</h2>
                 <p class="ml-5" *ngIf="currentIndex==i">{{ i+1 }}. {{ question.question }}</p>
                 
                 <form action="block" >
@@ -35,7 +36,8 @@
                             </div>
                             <br>
                             <button class="btn btn-outline-primary ml-5" (click)="onClickViewAnswer()">View Answer</button>
-                            <button class="btn btn-outline-primary ml-5" (click)="onClickNext()">Next</button>
+                            <button class="btn btn-outline-primary ml-5" *ngIf="!((i+1) == length)" (click)="onClickNext()">Next</button>
+                            <button class="btn btn-outline-primary ml-5" *ngIf="((i+1) == length)" (click)="onClickNext()">Finish</button>
                         </div>
                     </div>
                 </form>
