@@ -18,6 +18,7 @@ export class DemoExamComponent implements OnInit {
   images: Images[];
   questionGet: boolean = false;
   selectedCourseCode: number;
+  isLoading: boolean = false;
 
   constructor(private courseService: CourseService,
               private router: Router) { }
@@ -27,8 +28,10 @@ export class DemoExamComponent implements OnInit {
   }
 
   getCourses(){
+    this.isLoading = true;
     this.courseService.getCoursesDemo()
     .subscribe((course: Course[]) => {
+      this.isLoading = false;
       this.courses = course;
       console.log(this.courses);
     });
