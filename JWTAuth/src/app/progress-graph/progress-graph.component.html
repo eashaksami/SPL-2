@@ -1,8 +1,12 @@
 <p>progress-graph works!</p>
 
-<div>
+<div *ngIf="isLoading" style="text-align: center;">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div *ngIf="!isLoading" style="height:auto; width:50vw;">
   <div style="display: block;">
-    <canvas baseChart width="400" height="400"
+    <canvas baseChart 
       [datasets]="lineChartData"
       [labels]="lineChartLabels"
       [options]="lineChartOptions"
