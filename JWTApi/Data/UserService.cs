@@ -3,13 +3,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using JWTApi.Helpers;
-using JWTApi.Models;
+using EBET.Helpers;
+using EBET.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public class UserService : IUserservice
     {
@@ -23,15 +23,15 @@ namespace JWTApi.Data
             _appSettings = appSettings.Value;
         }
 
-        public async Task<Student> Authenticate(string username, string password)
+        public async Task<User> Authenticate(string username, string password)
         {
-            var user = await _context.Students.FirstOrDefaultAsync(x => x.Name == username);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == username);
 
             if(user == null)
                 return null;
 
-            // if(!verifyPasswardHash(password, user.PasswordHash, user.PasswordSalt))
-            //     return null;
+            if(!verifyPasswardHash(password, user.PasswordHash, user.PasswordSalt))
+                return null;
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -40,7 +40,8 @@ namespace JWTApi.Data
             {
                 Subject = new ClaimsIdentity(new Claim[] 
                 {
-                    new Claim(ClaimTypes.Name, user.StudentId.ToString())
+                    new Claim(ClaimTypes.Name, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -65,16 +66,15 @@ namespace JWTApi.Data
             return true;
         }
 
-        public async Task<Student> Register(Student user, string password)
+        public async Task<User> Register(User user, string password)
         {
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.Password = password;
 
-            await _context.Students.AddAsync(user);//this doesnt change in our database
+            await _context.Users.AddAsync(user);//this doesnt change in our database
             await _context.SaveChangesAsync();//this saves sthe changes
 
             return user;
@@ -91,7 +91,7 @@ namespace JWTApi.Data
 
         public async Task<bool> UserExist(string username)
         {
-            if(await _context.Students.AnyAsync(x => x.Name == username))
+            if(await _context.Users.AnyAsync(x => x.Name == username))
                 return true;
                 
             return false;
