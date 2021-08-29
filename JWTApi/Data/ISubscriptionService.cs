@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Dtos;
+using EBET.Models;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public interface ISubscriptionService
     {
