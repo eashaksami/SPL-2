@@ -1,4 +1,4 @@
-namespace JWTApi.Dtos
+namespace EBET.Dtos
 {
     public class ProgressInfoDto
     {
