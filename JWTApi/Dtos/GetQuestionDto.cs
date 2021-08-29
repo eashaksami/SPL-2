@@ -1,4 +1,4 @@
-namespace JWTApi.Dtos
+namespace EBET.Dtos
 {
     public class GetQuestionDto
     {
@@ -11,5 +11,9 @@ namespace JWTApi.Dtos
         public string Option4 { get; set; }
         public string CorrectAnswer { get; set; }
         public string AnswerDetails { get; set; }
+        public int ImageId { get; set; }
+        public string ImageUrl { get; set; }
+        public int ImageIdForAnswer { get; set; }
+        public string ImageUrlForAnswer { get; set; }
     }
 }
