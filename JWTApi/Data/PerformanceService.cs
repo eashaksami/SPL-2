@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Dtos;
+using EBET.Models;
 using Microsoft.EntityFrameworkCore;
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public class PerformanceService : IPerformanceService
     {
@@ -15,7 +16,7 @@ namespace JWTApi.Data
             _context = context;
         }
 
-        public async Task<IEnumerable<CourseCompletionInfoDto>> GetCourseCompletionInfo(int courseCode, int studentId)
+        public async Task<IEnumerable<CourseCompletionInfoDto>> GetCourseCompletionInfo(int studentId, int courseCode)
         {
             var totalQsn =  ((from p in _context.Questions.AsEnumerable()
                       join q in _context.QuestionStatuses.AsEnumerable() on p.QuestionId equals q.QuestionId
@@ -58,7 +59,7 @@ namespace JWTApi.Data
             return await Task.FromResult(info);
         }
 
-        public async Task<IEnumerable<TestExam>> GetProgressInfo(int courseCode, int studentId)
+        public async Task<IEnumerable<TestExam>> GetProgressInfo(int studentId, int courseCode)
         {
             var info = await _context.TestExams
                     .FromSqlRaw("SELECT TestExamId, Quantity, TotalCorrectAnswer, TotalWrongAnswer, UserId, CourseCode FROM TestExams WHERE UserId = {0} AND CourseCode = {1}", studentId, courseCode).ToListAsync();
