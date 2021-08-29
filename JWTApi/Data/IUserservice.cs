@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using JWTApi.Models;
+using EBET.Models;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public interface IUserservice
     {
-        Task<Student> Register(Student user, string password);
-        Task<Student> Authenticate(string username, string password);
+        Task<User> Register(User user, string password);
+        Task<User> Authenticate(string username, string password);
         Task<bool> UserExist(string username);
     }
 }
