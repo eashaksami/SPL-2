@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JWTApi.Models
+namespace EBET.Models
 {
     public class Subscription
     {
