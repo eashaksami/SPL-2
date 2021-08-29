@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JWTApi.Models
+namespace EBET.Models
 {
     public class Question
     {
@@ -14,6 +14,7 @@ namespace JWTApi.Models
         public string CorrectAnswer { get; set; }
         public string AnswerDetails { get; set; }
         public int? ImageId { get; set; }
+        public int? ImageIdForAnswer { get; set; }
         [ForeignKey("ImageId")]
         public Image Image { get; set; }
         public int? ChapterId { get; set; }
@@ -21,4 +22,4 @@ namespace JWTApi.Models
         public Chapter Chapter { get; set; }
         public ICollection<QuestionStatus> QuestionStatuses { get; set; }
     }
-} 
+}
