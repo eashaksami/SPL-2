@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using JWTApi.Data;
-using JWTApi.Dtos;
+using EBET.Data;
+using EBET.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using JWTApi.Models;
+using EBET.Models;
 using Microsoft.AspNetCore.Authorization;
-using JWTApi.Helpers;
+using EBET.Helpers;
 
-namespace JWTApi.Controllers
+namespace EBET.Controllers
 {
     // [Authorize]
     [ApiController]
@@ -37,7 +37,7 @@ namespace JWTApi.Controllers
             var chapters = _mapper.Map<IEnumerable<ChapterDto>>(chapter);
             return Ok(chapters);
         }
-        
+        // http://localhost:5001/Test
         [HttpGet]
         public async Task<IActionResult> GetCourses([FromQuery] string studentId)
         {
@@ -49,7 +49,7 @@ namespace JWTApi.Controllers
             // var b = _mapper.Map<IEnumerable<CourseDto>>(chapters);
             return Ok(course);
         }
-
+        // htt//localhost:5001/Test/allcourses
         [HttpGet("{allcourses}")]
         public async Task<IActionResult> GetAllCourses()
         {
@@ -59,7 +59,7 @@ namespace JWTApi.Controllers
             var b = _mapper.Map<IEnumerable<CourseDto>>(courses);
             return Ok(courses);
         }
-
+        // http://localhost:5001/Test/demo
         [HttpGet("{demo}/{questions}/{exam}/{sami}")]
         public async Task<IActionResult> GetCoursesDemo()
         {
@@ -108,12 +108,12 @@ namespace JWTApi.Controllers
         {
             var CourseCode = Convert.ToInt16(courseCode);
             var question = await _repo.GetDemoQuestion(CourseCode);
-            var questions = _mapper.Map<IEnumerable<GetQuestionDto>>(question);
+            // var questions = _mapper.Map<IEnumerable<GetQuestionDto>>(question);
 
             // var rnd = new Random();
             // var result = questions.OrderBy(item => rnd.Next()).Take(5);
 
-            return Ok(questions);
+            return Ok(question);
         }
 
         [HttpPost]
