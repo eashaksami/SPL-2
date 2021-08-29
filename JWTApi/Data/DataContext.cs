@@ -1,8 +1,8 @@
-using JWTApi.Models;
-using JWTApi.Dtos;
+using EBET.Models;
+using EBET.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public class DataContext : DbContext
     {
@@ -22,10 +22,10 @@ namespace JWTApi.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<TestExam> TestExams { get; set; }
-        public DbQuery<GetQuestionDto> QuestionModel { get; set; }
+        public DbQuery<NewGetQuestionDto> QuestionModel { get; set; }
         // public DbQuery<TestQuestionDto> TestQuestionModel { get; set; }
         public DbQuery<CourseDto> CoursesModel { get; set; }
         public DbQuery<SubscribedCourseDto> CourseModel { get; set; }
-        public DbQuery<CourseDto> Course { get; set; }
+        // public DbQuery<CourseDto> Course { get; set; }
     }
 } 
