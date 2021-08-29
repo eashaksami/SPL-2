@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Dtos;
+using EBET.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public class SubscriptionService : ISubscriptionService
     {
@@ -60,7 +60,7 @@ namespace JWTApi.Data
             return await Task.FromResult(sub);
         }
 
-        public List<GetQuestionDto> question { get; set; }
+        public List<NewGetQuestionDto> question { get; set; }
 
         void updateDatabase(int studentId, int CourseCode)
         {
