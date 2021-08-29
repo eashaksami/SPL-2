@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
-using JWTApi.Data;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Data;
+using EBET.Dtos;
+using EBET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
-using JWTApi.Helpers;
+using EBET.Helpers;
 
-namespace JWTApi.Controllers
+namespace EBET.Controllers
 {
     // [Authorize]
     [ApiController]
