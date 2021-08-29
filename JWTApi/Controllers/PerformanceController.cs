@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using JWTApi.Data;
-using JWTApi.Dtos;
-using JWTApi.Helpers;
+using EBET.Data;
+using EBET.Dtos;
+using EBET.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JWTApi.Controllers
+namespace EBET.Controllers
 {
     [ApiController]
     [Route("[controller]")]
