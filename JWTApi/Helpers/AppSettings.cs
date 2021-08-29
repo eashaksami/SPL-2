@@ -1,4 +1,4 @@
-namespace JWTApi.Helpers
+namespace EBET.Helpers
 {
     public class AppSettings
     {
