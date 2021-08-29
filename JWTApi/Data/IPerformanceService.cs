@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Dtos;
+using EBET.Models;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public interface IPerformanceService
     {
-        Task<IEnumerable<TestExam>> GetProgressInfo(int courseCode, int studentId);
-        Task<IEnumerable<CourseCompletionInfoDto>> GetCourseCompletionInfo(int courseCode, int studentId);
+        Task<IEnumerable<TestExam>> GetProgressInfo(int studentId, int courseCode);
+        Task<IEnumerable<CourseCompletionInfoDto>> GetCourseCompletionInfo(int studentId, int courseCode);
     }
 }
