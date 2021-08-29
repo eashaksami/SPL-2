@@ -1,6 +1,6 @@
 using System;
 
-namespace JWTApi.Dtos
+namespace EBET.Dtos
 {
     public class SubscriptionDto
     {
