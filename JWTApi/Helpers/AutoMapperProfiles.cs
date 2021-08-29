@@ -1,14 +1,14 @@
 using AutoMapper;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Dtos;
+using EBET.Models;
 
-namespace JWTApi.Helpers
+namespace EBET.Helpers
 {
     public class AutoMapperprofiles : Profile
     {
         public AutoMapperprofiles()
         {
-            CreateMap<Student, UserForLoginDto>();
+            CreateMap<User, UserForLoginDto>();
             CreateMap<Chapter, ChapterDto>();
             CreateMap<Course, CourseDto>();
             CreateMap<Question, GetQuestionDto>();
