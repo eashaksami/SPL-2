@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JWTApi.Models
+namespace EBET.Models
 {
     public class Image
     {
