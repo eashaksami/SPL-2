@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using JWTApi.Data;
-using JWTApi.Dtos;
-using JWTApi.Models;
+using EBET.Data;
+using EBET.Dtos;
+using EBET.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JWTApi.Controllers
+namespace EBET.Controllers
 {
     [Authorize]
     [ApiController]
@@ -48,12 +48,12 @@ namespace JWTApi.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userToCreate = new Student
+            var userToCreate = new User
             {
                 Name = userForRegisterDto.Username,
                 Email = userForRegisterDto.Email,
-                Phone = userForRegisterDto.Phone
-                
+                Phone = userForRegisterDto.Phone,
+                Role = userForRegisterDto.Role
             };
 
             var createUser = await _userService.Register(userToCreate, userForRegisterDto.Password);
