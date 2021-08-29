@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using JWTApi.Models;
-using JWTApi.Dtos;
+using EBET.Models;
+using EBET.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace JWTApi.Data
+namespace EBET.Data
 {
     public class TestExamRepo : ITestExamRepo
     {
@@ -39,7 +39,7 @@ namespace JWTApi.Data
             return course;
         }
 
-        public async Task<IEnumerable<GetQuestionDto>> GetDemoQuestion(int CourseCode)
+        public async Task<IEnumerable<NewGetQuestionDto>> GetDemoQuestion(int CourseCode)
         {
             var question = await _context.QuestionModel
             .FromSqlRaw("SELECT Questions.QuestionId, Questions.ChapterId, Questions.question, Questions.Option1, Questions.Option2, Questions.Option3, Questions.Option4, Questions.CorrectAnswer, Questions.AnswerDetails FROM Questions, Chapters WHERE Questions.ChapterId = Chapters.ChapterId AND Chapters.CourseCode = {0} LIMIT 10", CourseCode).ToListAsync();
@@ -84,7 +84,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     // .SelectMany(x => x.OrderBy(item => rnd.Next()).Take(5))
                     ).ToList();
@@ -98,7 +99,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     // .SelectMany(x => x.OrderBy(item => rnd.Next()).Take(5))
                     ).ToList();
@@ -111,7 +113,20 @@ namespace JWTApi.Data
                     questions = questions.Concat(i.OrderBy(item => rnd.Next()).Take(perChapterQuestion));
                     j++;
                 } 
-                return await Task.FromResult(questions);
+                j = 0;
+                List<GetQuestionDto> questionWithUrl = new List<GetQuestionDto>();
+                questionWithUrl = questions.ToList();
+                foreach (var i in questionWithUrl)
+                {
+                    if(i.ImageId > 0){
+                        var image = _context.Images.Where(x => x.ImageId == i.ImageId).FirstOrDefault();
+                        var answerImage = _context.Images.Where(x => x.ImageId == i.ImageIdForAnswer).FirstOrDefault();
+                        questionWithUrl[j].ImageUrl = image.ImageUrl;
+                        questionWithUrl[j].ImageUrlForAnswer = answerImage.ImageUrl;
+                    }
+                    j++;
+                } 
+                return await Task.FromResult(questionWithUrl);
             } 
 
             //correct + wrong + new
@@ -132,7 +147,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     ).ToList();
                 }
@@ -145,7 +161,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     ).ToList();
                 }
@@ -157,9 +174,21 @@ namespace JWTApi.Data
                     questions = questions.Concat(i.OrderBy(item => rnd.Next()).Take(perChapterQuestion));
                     j++;
                 } 
-                j=0;
+                j = 0;
+                List<GetQuestionDto> questionWithUrl = new List<GetQuestionDto>();
+                questionWithUrl = questions.ToList();
+                foreach (var i in questionWithUrl)
+                {
+                    if(i.ImageId > 0){
+                        var image = _context.Images.Where(x => x.ImageId == i.ImageId).FirstOrDefault();
+                        var answerImage = _context.Images.Where(x => x.ImageId == i.ImageIdForAnswer).FirstOrDefault();
+                        questionWithUrl[j].ImageUrl = image.ImageUrl;
+                        questionWithUrl[j].ImageUrlForAnswer = answerImage.ImageUrl;
+                    }
+                    j++;
+                } 
                 
-                return await Task.FromResult(questions.Union(questions));
+                return await Task.FromResult(questions.Union(questionWithUrl));
             }  
 
                 //only new
@@ -178,7 +207,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     ).ToList();
                 }
@@ -191,7 +221,8 @@ namespace JWTApi.Data
                     select new
                         GetQuestionDto{ QuestionId = p.QuestionId, question = p.question, Option1 = p.Option1, Option2 = p.Option2, 
                     Option3 = p.Option3, Option4 = p.Option4, CorrectAnswer = p.CorrectAnswer, AnswerDetails = p.AnswerDetails,
-                    ChapterId = p.ChapterId.Value})
+                    ChapterId = p.ChapterId.Value, ImageId = p.ImageId.HasValue? p.ImageId.Value: 0,
+                    ImageIdForAnswer = p.ImageIdForAnswer.HasValue? p.ImageIdForAnswer.Value: 0})
                     ).OrderBy(x => x.ChapterId).GroupBy(x => x.ChapterId)
                     ).ToList();
                 }
@@ -203,7 +234,20 @@ namespace JWTApi.Data
                     unseenQuestions = unseenQuestions.Concat(i.OrderBy(item => rnd.Next()).Take(perChapterQuestion));
                     j++;
                 }
-                return await Task.FromResult(unseenQuestions);
+                j = 0;
+                List<GetQuestionDto> questionWithUrl = new List<GetQuestionDto>();
+                questionWithUrl = unseenQuestions.ToList();
+                foreach (var i in questionWithUrl)
+                {
+                    if(i.ImageId > 0){
+                        var image = _context.Images.Where(x => x.ImageId == i.ImageId).FirstOrDefault();
+                        var answerImage = _context.Images.Where(x => x.ImageId == i.ImageIdForAnswer).FirstOrDefault();
+                        questionWithUrl[j].ImageUrl = image.ImageUrl;
+                        questionWithUrl[j].ImageUrlForAnswer = answerImage.ImageUrl;
+                    }
+                    j++;
+                } 
+                return await Task.FromResult(questionWithUrl);
             }
         }
     }
