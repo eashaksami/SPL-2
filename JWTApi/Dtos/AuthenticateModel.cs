@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JWTApi.Dtos
+namespace EBET.Dtos
 {
     public class AuthenticateModel
     {
