@@ -1,5 +1,7 @@
 export interface TestQuestion{
     questionId: number;
+    imageId: number;
+    imageUrl: number;
     question: string;
     option1: string;
     option2: string;
