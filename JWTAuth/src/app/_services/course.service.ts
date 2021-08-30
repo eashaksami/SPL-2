@@ -61,6 +61,15 @@ export class CourseService{
 
     }
 
+    getQuestionsForTest(chapterIds: number[], studentId: number,
+        examType: string,CorrectOrWrong: number,SeenOrUnseen: number, TotalQuestion: number)
+    {
+            return this.http.post(this.baseUrl+'test/exam/questions', {studentId, examType, CorrectOrWrong,
+                                                                        SeenOrUnseen, TotalQuestion, chapterIds})
+                .pipe(map((response => <TestQuestion[]>response)));
+
+    }
+
     getDemoQuestions(courseCode: number): Observable<Question[]>{
         console.log(courseCode);
         const params = new HttpParams().set('courseCode', courseCode.toString());
