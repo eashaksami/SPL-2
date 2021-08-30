@@ -97,7 +97,7 @@ export class CourseCompletionComponent implements OnInit {
     responsive: true,
   };
   
-  public pieChartLabels = ['Solved', 'Total Question'];
+  public pieChartLabels = ['Total Question', 'Solved'];
   public pieChartData = [this.chartData];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
