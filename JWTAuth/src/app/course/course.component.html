@@ -1,69 +1,27 @@
-
-<!-- <div class="containet">
-    <div class="row">
-        <div class="col-xs-12">
-            <a 
-            *ngFor="let course of courses"
-            [routerLink]="['/test/',course.courseCode]">
-            <a>
-                <button class="ml-2 btn btn-primary" (click)="Subscribe()">
-                    Subscribe
-                </button>
-            </a>
-                {{ course.courseCode }} : {{ course.name }}<br> <br>
-            </a>
-        </div>
-    </div>
-</div> -->
-
 <div *ngIf="isLoading" style="text-align: center;">
-    <app-loading-spinner></app-loading-spinner>
+  <app-loading-spinner></app-loading-spinner>
 </div>
-<!-- <div class="containet">
-    <div class="row">
-        <div class="col-xs-12" *ngFor="let course of courses">
-            <a>
-                <button class="ml-2 btn btn-primary" (click)="Subscribe(course.name, course.courseCode)">
-                    Subscribe
-                </button>
-            </a>    
-                {{ course.name }}<br> <br>
-        </div>
+
+<div *ngIf="!isLoading"  style="height:auto; width:40vw;">
+    <div style="display: block">
+      <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"></canvas>
     </div>
-</div> -->
+</div>
+<br><br><br>
 
-
-<section id="pricing" class="pricing section-bg mt-3" style="background-color: #eee8e8;">
-    <div class="container">
-
-        <div class="row ml-auto mr-auto">
-
-            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12 mt-4 mt-md-0" *ngFor="let course of courses">
-            <div class="box mb-5" data-aos="zoom-in">
-                <span class="advanced bg-success">6 Months</span>
-                <div class="image">
-                    <img class="physics-img mt-4" [src]= "courseService.baseUrl+'Images/'+course.imageUrl" alt="">
-                </div>
-                <h2 class="mt-4">{{ course.name }}</h2>
-                <h4><sup>tk</sup>1300<span> / 6 months</span></h4>
-                <div class="list">
-                    <ul class="text-left">
-                        <li><img src="assets/img/right.png" class="arrow-image" alt=""> 
-                            Unlimited practice and test</li>
-                        <li><img src="assets/img/right.png" class="arrow-image" alt=""> 
-                            Regular Progress</li>
-                        <li><img src="assets/img/right.png" class="arrow-image" alt=""> 
-                            500+ questions/chapter</li>
-                        <li><img src="assets/img/right.png" class="arrow-image" alt=""> 
-                            Previous year questions
-                        </li>
-                    </ul>
-                </div>
-                <div class="btn-wrap">
-                <a (click)="Subscribe(course.name, course.courseCode)" class="btn-buy">Subscribe Now</a>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
-</section>
+<div style="display: block; height:auto; width:40vw;" *ngIf="!isLoading">
+  <canvas baseChart
+    [data]="pieChartData" 
+    [labels]="pieChartLabels" 
+    [chartType]="pieChartType"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+    [legend]="pieChartLegend"
+    [colors]="pieChartColors">
+  </canvas>
+</div>
