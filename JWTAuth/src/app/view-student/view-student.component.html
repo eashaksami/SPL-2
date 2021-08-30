@@ -1,0 +1,14 @@
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="container">
+    <div class="card"  *ngFor="let studnet of students">
+        <h5 class="card-header">{{ studnet.name }}</h5>
+        <div class="card-body">
+          <p class="card-text">Email: {{ studnet.email }}</p>
+          <p class="card-text">Phone: {{ studnet.phone }}</p>
+          <!-- <a class="btn btn-primary" (click)="deleteUser(studnet.userId)">Delete</a> -->
+        </div>
+      </div>
+</div>

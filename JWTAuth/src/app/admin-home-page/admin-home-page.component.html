@@ -1,0 +1,32 @@
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<section id="pricing" class="pricing section-bg" *ngIf="!isLoading">
+    <div class="container mt-5">
+
+        <div class="row ml-auto mr-auto">
+
+            <div class="col-xl-4 col-lg-5 col-md-7 col-sm-12 mt-4 mt-md-0"
+                *ngFor="let course of courses">
+                <div class="box mb-5" data-aos="zoom-in">
+                    <div class="header pb-4" style="background-color: #CCCCCC;">
+                        <h2 class="mb-1 text-left pl-3 pt-2">{{ course.name }}</h2> <br>
+                    </div>
+                    <div class="body">
+                        <div class="image">
+                            <img class="physics-img" style="border-radius: 50%; height: 100px; width: 100px;" [src]="courseService.baseUrl+'Images/'+course.imageUrl" alt="">
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                    <a [routerLink]="['/admin/updateCourse',course.courseCode]">
+                        <button class="btn-buy">
+                            Enter
+                        </button>
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>

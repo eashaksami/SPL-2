@@ -1,0 +1,23 @@
+<p>add-course works!</p>
+<div>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Course Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Enter CourseName" aria-describedby="basic-addon2"
+        [(ngModel)]="courseName">
+    </div>
+    <!-- <button class="btn btn-success mt-3" (click)="saveChanges()">Save Changes</button> -->
+</div>
+
+<div class="containet">
+    <div class="row">
+        <div class="col-xs-12">
+            <form #imageForm=ngForm (ngSubmit)="OnSubmit(Image)">
+                <img [src]="imageUrl"  style="width:250px;height:200px">
+                <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+                <button type="submit" class="btn btn-primary">Add Course</button>
+            </form>
+        </div>
+    </div>
+</div>
