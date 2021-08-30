@@ -1,11 +1,11 @@
-<p>answers works!</p>
-
 <div class="containet">
     <div class="row">
         <div class="col-xl-12 ml-5">
             <li *ngFor="let question of questions; let i= index" style="list-style: none;">
                 <p class="ml-5">{{ i+1 }}. {{ question.question }}</p>
-                
+                <div *ngIf="question.imageUrl!=null">
+                    <img class="physics-img" style="height: 200px; width: auto;" [src]="courseService.baseUrl+'Images/'+question.imageUrl" alt="">
+                  </div>
                 <br/>
                 <div class="col-xl-6 col-md-6 col-sm-12">
                     <button class="btn btn-outline-primary btn-block mb-2"
