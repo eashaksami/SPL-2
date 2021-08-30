@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Chapter } from '@app/_models/Chapter';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '@app/_services/course.service';
@@ -12,14 +12,14 @@ export class ChapterComponent implements OnInit {
 
   chapters: Chapter[];
   examStarted: boolean =false;
-  values: number[] = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+  values: number[] = [10, 15, 20, 25, 30];
   examType: string[] = ['Practice exam', 'Test exam'];
   options: string[] = ['Yes', 'no'];
   isDisabled: boolean = true;
   isValid: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private courseService: CourseService,
+  constructor(public courseService: CourseService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -120,6 +120,12 @@ export class ChapterComponent implements OnInit {
 
   onStartExam(){
     this.examStarted = true;
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    console.log('Back button pressed');
+    this.courseService.examStarted = false;
   }
 
   noOfQuestion(questions: number){
