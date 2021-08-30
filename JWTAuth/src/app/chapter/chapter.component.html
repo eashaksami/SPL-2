@@ -1,5 +1,3 @@
-<p>chapter works!</p>
-
 <!-- <div class="containet">
     <div class="row">
         <div class="col-xs-12" *ngFor="let chapter of chapters">
@@ -73,7 +71,7 @@
   <app-loading-spinner></app-loading-spinner>
 </div>
 <section *ngIf="!courseService.examStarted && isLoading == false">
-  <button class="btn btn-primary" [routerLink]="['/progress/',courseCode]">Progress Graph</button>
+  <button class="btn btn-primary mr-3" [routerLink]="['/progress/',courseCode]">Progress Graph</button>
   <button class="btn btn-primary" [routerLink]="['/coursecompletion/',courseCode]">Course Completion</button>
   <div class="container-fluid" style=" padding: 0;">
       <div class="row Container">
@@ -99,7 +97,7 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">do you want to view your previously seen questions?</label>
+                <label for="exampleFormControlSelect1">Do you want to view your previously seen questions?</label>
                 <select class="form-control" id="exampleFormControlSelect1" (change)="onClickSeenOrUnseen($event.target.value)">
                   <option selected="selected" disabled>-- options --</option>
                   <option *ngFor="let value of options" [value]="value">{{ value }}</option>
@@ -107,7 +105,7 @@
               </div>
 
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Do you want to view your previously corret questions?</label>
+                <label for="exampleFormControlSelect1">Do you want to view your previously correct questions?</label>
                 <select class="form-control" id="exampleFormControlSelect1"
                 [disabled] = "isDisabled" (change)="onClickIsCorrect($event.target.value)">
                   <option selected="selected" disabled>-- options --</option>
