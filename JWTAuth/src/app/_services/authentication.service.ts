@@ -47,4 +47,17 @@ export class AuthenticationService {
         // this.isLoggedIn = false;
         this.currentUserSubject.next(null);
     }
+
+    roleMatch(allowedRoles): boolean {
+        var isMatch = false;
+        var payLoad = JSON.parse(window.atob(JSON.parse(localStorage.getItem('currentUser')).token.split('.')[1]));
+        var userRole = payLoad.role;
+        allowedRoles.forEach(element => {
+          if (userRole == element) {
+            isMatch = true;
+            return false;
+          }
+        });
+        return isMatch;
+      }
 }
