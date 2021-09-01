@@ -1,39 +1,27 @@
-<!-- nav -->
-<!-- <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
-    <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/">Home</a>
-        <a class="nav-item nav-link" routerLink="/test">Courses</a>
-        <a class="nav-item nav-link" routerLink="/subscriptions">My Subscription</a>
-        <a class="nav-item nav-link" routerLink="/demo">Demo Exam</a>
-        <a class="nav-item nav-link" (click)="logout()">Logout</a>
-    </div>
-</nav> -->
-
-
-<!-- ======= Header ======= -->
 <div>
     <header id="header" >
         <div class="container d-flex">
     
           <div class="logo mr-auto">
             <h1 class="text-light"><a routerLink="/"><span>Online Learning</span></a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
           </div>
     
           <nav class="nav-menu d-none d-lg-block">
-            <ul>
-              <li class="active"><a routerLink="/">Home</a></li>
-              <li><a routerLink="/test">Courses</a></li>
-              <li><a routerLink="/subscriptions">My Subscriptions</a></li>
-              <li><a routerLink="/register" *ngIf="!isLoggedIn" class="btn-get-started scrollto">Sign Up</a></li>
-              <li><a routerLink="/login" *ngIf="!isLoggedIn" class="btn-login scrollto">Log In</a></li>
-              <li><a (click)="logout()" class="btn-get-started scrollto" *ngIf="isLoggedIn">Log Out</a></li>
-            </ul>
-          </nav><!-- .nav-menu -->
+                <ul>
+                    <li class="active"><a routerLink="/" *ngIf="!isAdmin">Home</a></li>
+                    <li class="active"><a routerLink="/admin" *ngIf="isAdmin">Home</a></li>
+                    <li><a routerLink="/test" *ngIf="!isAdmin">Courses</a></li>
+                    <li><a routerLink="/subscriptions" *ngIf="!isAdmin">My Subscriptions</a></li>
+                    <li><a routerLink="/admin/addCourse" *ngIf="isAdmin">Add Courses</a></li>
+                    <li><a routerLink="/admin/viewStudent" *ngIf="isAdmin">View Students</a></li>
+                    <li><a routerLink="/register" *ngIf="!isLoggedIn" class="btn-get-started scrollto">Sign Up</a></li>
+                    <li><a routerLink="/login" *ngIf="!isLoggedIn" class="btn-login scrollto">Log In</a></li>
+                    <li><a (click)="logout()" class="btn-get-started scrollto" *ngIf="isLoggedIn">Log Out</a></li>
+                </ul>
+          </nav>
     
         </div>
-    </header><!-- End Header -->
+    </header>
 </div>
 
   
