@@ -58,7 +58,7 @@ export class QuestionComponent implements OnInit {
 
   getQuestions(){
     // +this.route.snapshot.params['chapterId']
-      this.courseService.getQuestions(this.courseService.chapterIds,
+      this.courseService.getQuestionsForTest(this.courseService.chapterIds,
         +this.authenticationService.getUsername().userId,
         this.courseService.examType, this.courseService.CorrectOrWrong,
         this.courseService.SeenOrUnseen, +this.courseService.howManyQuestions)
