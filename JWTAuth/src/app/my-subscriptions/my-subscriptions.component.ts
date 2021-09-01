@@ -16,6 +16,7 @@ export class MySubscriptionsComponent implements OnInit {
 
   mySubscriptions: SubscribedCourses[];
   isLoading: boolean = false;
+  length: number = 0;
 
   constructor(private subscriptionsService: SubscriptionsService,
               private authenticationService: AuthenticationService,
@@ -33,6 +34,8 @@ export class MySubscriptionsComponent implements OnInit {
     .subscribe((course: SubscribedCourses[]) => {
       this.isLoading = false;
       this.mySubscriptions = course;
+      this.length = this.mySubscriptions.length;
+      console.log(this.length)
       console.log(this.mySubscriptions);
     });
   }
