@@ -10,6 +10,7 @@ import { User } from './_models';
 export class AppComponent implements OnInit{
     currentUser: User;
     isLoggedIn: boolean;
+    isAdmin: boolean = false;
 
     constructor(
         private router: Router,
@@ -26,6 +27,13 @@ export class AppComponent implements OnInit{
         else
         {
             this.isLoggedIn = true;
+            
+            //check is admin
+            if(user.role === 'Admin'){
+                this.isAdmin = true;
+            }else{
+                this.isAdmin = false;
+            }
         }
     }
 
