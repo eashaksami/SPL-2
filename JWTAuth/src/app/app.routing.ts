@@ -1,3 +1,7 @@
+import { UpdateCourseComponent } from './update-course/update-course.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { ViewStudentComponent } from './view-student/view-student.component';
+import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { HomeComponentComponent } from './home-component/home-component.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { CourseCompletionComponent } from './course-completion/course-completion.component';
@@ -19,12 +23,20 @@ import { ChapterComponent } from './chapter/chapter.component';
 import { QuestionComponent } from './question/question.component';
 import { AnswerComponent } from './question/answer/answer.component';
 import { SubscriptionComponent } from './course/subscription/subscription.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponentComponent },
+    { path: 'admin', component: AdminHomePageComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
+    { path: 'admin/viewStudent', component: ViewStudentComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
+    { path: 'admin/addCourse', component: AddCourseComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
+    { path: 'admin/updateCourse/:courseCode', component: UpdateCourseComponent, canActivate: [AuthGuard], data: {permittedRoles: ['Admin']} },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: SignUpComponent },
-    // { path: 'image', component: ImageUploadComponent, canActivate: [AuthGuard]},
+    { path: 'forbidden', component: ForbiddenComponent },
+    { path: 'image', component: ImageUploadComponent, canActivate: [AuthGuard]},
+    // { path: 'demo', component: DemoExamComponent },
+    // , canActivate: [AuthGuard], data: {permittedRoles: ['Admin']}
     { path: 'demo', component: DemoExamComponent },
     { path: 'demo/answer', component: AnswersComponent },
     { path: 'subscription', component: SubscriptionComponent , canActivate: [AuthGuard]},
