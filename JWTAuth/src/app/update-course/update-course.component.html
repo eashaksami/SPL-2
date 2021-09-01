@@ -1,0 +1,21 @@
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  
+  <section *ngIf="!courseService.examStarted && isLoading == false">
+    <div class="container-fluid" style=" padding: 0;">
+        <div class="row Container">
+            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-7 left-section" style="height: 96vh; overflow: auto;">
+              <h3 class="text-center mt-3">Select chapter</h3>
+                <div class="inputGroup" *ngFor="let chapter of chapters; let i = index">
+                <input [id]="i" name="option1" type="radio" (change)="selectedChapter($event.target.checked,chapter.chapterId, chapter.name)"/>
+                <label [for]="i">{{ chapter.name }}</label>
+                </div>
+            </div>
+  
+            <div class="mt-3 col-xl-7 col-lg-6 col-md-6 col-sm-12" style="float: right; height: 100%; width: auto">
+              <app-view-questions [chapterId]="chapterId" [selectedCourse]="selectedCourse" [isSelected]="isSelected"></app-view-questions>
+        </div>
+    </div>
+  </div>
+</section>
