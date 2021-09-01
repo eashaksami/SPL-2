@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         private courseService: CourseService
     ) { 
         // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) { 
+        if (this.authenticationService.currentUserValue) {
             this.router.navigate(['/']);
         }
     }
@@ -55,19 +55,36 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
-                    window.location.reload();
+                    if(this.authenticationService.getUsername().role === 'Admin'){
+                        this.router.navigate(['/admin']).then(() => {
+                            window.location.reload();
+                          });
+                        // this.reload();
+                    }else if(this.authenticationService.getUsername().role === 'Student'){
+                        this.router.navigate(['']).then(() => {
+                            window.location.reload();
+                          });
+                    }else{
+                        this.router.navigate(['/login']);
+                    }
+                    // this.router.navigate([this.returnUrl]);
+                    // window.location.reload();
                     this.courseService.user=data;
                     // this.router.navigate(['/test']);
                     // this.router.navigate(['/']);
                     console.log(jwt_decode(this.courseService.user.token));
                     console.log(data);
+
                     // console.log(this.authenticationService.getUsername().studentId);
                 },
                 error => {
                     this.error = error;
                     this.isLoading = false;
                 });
+    }
+
+    reload(){
+        window.location.reload();
     }
 
     SignUp(){
