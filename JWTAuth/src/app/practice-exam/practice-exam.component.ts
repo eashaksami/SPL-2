@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Question } from '@app/_models/question';
 import { TestQuestion } from '@app/_models/TestQuestion';
 import { CourseService } from '@app/_services/course.service';
@@ -76,6 +76,12 @@ export class PracticeExamComponent implements OnInit {
           // console.log(this.questionIds);
       });
   }
+
+  // @HostListener('window:popstate', ['$event'])
+  // onPopState(event) {
+  //   console.log('Back button pressed');
+  //   this.courseService.examStarted = false;
+  // }
 
   onClickViewAnswer()
   {
