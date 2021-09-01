@@ -1,12 +1,12 @@
-<p>practice-exam works!</p>
-
 <div class="containet" *ngIf="isPracticeExam==true">
     <div class="row">
         <div class="col-xl-12 ml-5">
             <li *ngFor="let question of question; let i= index" style="list-style: none;">
                 <h2 *ngIf="currentIndex==i">{{ i+1 }} / {{ length }}</h2>
                 <p class="ml-5" *ngIf="currentIndex==i">{{ i+1 }}. {{ question.question }}</p>
-                
+                <div *ngIf="question.imageUrl!=null && currentIndex==i">
+                    <img class="physics-img" style="height: 200px; width: auto;" [src]="courseService.baseUrl+'Images/'+question.imageUrl" alt="">
+                </div>
                 <form action="block" >
                     <div class="container" *ngIf="currentIndex==i">
                         <div class="row">
@@ -35,15 +35,20 @@
                                 </label>
                             </div>
                             <br>
-                            <button class="btn btn-outline-primary ml-5" (click)="onClickViewAnswer()">View Answer</button>
+                            <button class="btn btn-outline-primary ml-5" (click)="onClickViewAnswer()">Answer Details</button>
                             <button class="btn btn-outline-primary ml-5" *ngIf="!((i+1) == length)" (click)="onClickNext()">Next</button>
                             <button class="btn btn-outline-primary ml-5" *ngIf="((i+1) == length)" (click)="onClickNext()">Finish</button>
                         </div>
                     </div>
                 </form>
-                <div class="card" *ngIf="currentIndex==i && viewAnswer">
+                <div class="card mt-3" *ngIf="currentIndex==i && viewAnswer">
+                    <h6>Correct Answer</h6>
                     <div class="card-body">
                         {{ question.correctAnswer }}
+                    </div>
+                    <div *ngIf="question.imageUrlForAnswer!=null && currentIndex==i" class="mt-3 mb-5">
+                        <h6>Details</h6>
+                        <img class="physics-img" style="height: 200px; width: auto;" [src]="courseService.baseUrl+'Images/'+question.imageUrlForAnswer" alt="">
                     </div>
                   </div>
             </li>
